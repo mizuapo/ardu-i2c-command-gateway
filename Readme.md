@@ -6,11 +6,34 @@ This project makes a command gateway between Arduino (slave) and any I2C master 
 
 Get the project:
 
-git clone 
+```
+cd /tmp
 
-Run the project
-cmake --build /home/molnarg/CLionProjects/ardu-i2c-command-gateway/cmake-build-debug --target ardu_i2c_command_gateway -- -j 4
+git clone https://github.com/mizuapo/ardu-i2c-command-gateway.git
 
+cd ./ardu-i2c-command-gateway/
+```
+
+**Check and personalize your CMakeLists.txt settings**\
+(Path, Serial port to upload, Device type, etc.)
+
+``` 
+cat ./CMakeLists.txt
+``` 
+
+After check and set:
+
+```
+mkdir ./cmake-build-debug
+
+cd ./cmake-build-debug
+
+cmake ..
+
+make
+
+sudo make upload
+```
 
 
 ### Compatibility
@@ -18,26 +41,15 @@ Arduino AVR Boards (Uno, Mega, Leonardo, etc.)
 
 ### Configure
 
-Find and edit the Config.h and change the I2C slave address if needed. Default address is: **0x04**
+Find and edit the **ardu_i2c_command_gateway.ino** and change the I2C slave address if needed. Default address is: **0x04**
 
 
 ```
-Give the example
+const int I2C_ADDRESS = 0x04;
 ```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ### Usage
 
-Examples with i2cset and i2cget.
-
-The pre-requested command parameters in example:
 
 **WRITE command**
 ```

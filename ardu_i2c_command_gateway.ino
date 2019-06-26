@@ -33,8 +33,7 @@ void receiveI2C(int byteCount) {
 
     // DIGITAL COMMANDS
     if (byteCount==2 && commandByte == 0x10) {          // Digital read and set to buffered data pool(hex: 0x10, dec: 16)
-        int result = gwDigitalRead(argumentByte);
-        addBufferedData(String(result, DEC));
+        response = gwDigitalRead(argumentByte);
     } else if (byteCount==2 && commandByte == 0x11) {   // Digital write (hex: 0x11, dec: 17)
         gwDigitalWrite(argumentByte);
     } else if (byteCount==2 && commandByte == 0x12) {   // Pin mode (hex: 0x12, dec: 18)
@@ -66,7 +65,11 @@ void receiveI2C(int byteCount) {
     } else if (byteCount==2 && commandByte==0x41) {     // Detach interrupt (hex: 0x41, dec: 65)
         gwdDetachInterrupt(argumentByte);
     } else if (byteCount==1 && commandByte==0x42) {     // Get Interrupt counter (hex: 0x42, dec: 66)
-        gwdDetachInterrupt(argumentByte);
+        int cnt = getImpulseCounter();
+        addBufferedData(String(cnt, DEC));
+        response = getBufferedDataLength();
+    } else if (byteCount==1 && commandByte==0x43) {     // Get Interrupt counter (hex: 0x42, dec: 66)
+        resetImpulseCounter();
     }
 }
 

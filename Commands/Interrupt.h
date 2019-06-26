@@ -41,7 +41,7 @@ void gwdDetachInterrupt(int8_t argumentByte) {
     detachInterrupt(digitalPinToInterrupt(pin));
 }
 
-int getInterruptCounter() {
+int getImpulseCounter() {
     return interruptCounter;
 }
 
