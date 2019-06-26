@@ -32,6 +32,8 @@ int getPinNumberFromArgument(int8_t argumentByte) {
             pin += ipow(2, i);
         }
     }
+    Serial.print("Parsed pin number is: ");
+    Serial.println(pin);
     return  pin;
 }
 
@@ -42,8 +44,12 @@ int getPinNumberFromArgument(int8_t argumentByte) {
  */
 int getValueFromArgument(int8_t argumentByte) {
     int result = 0;
-    result = ((1 << (7 % 8)) & (argumentByte)) >> (7 % 8)*10;
-    result+=((1 << (6 % 8)) & (argumentByte)) >> (6 % 8);
+    result = (((1 << (7 % 8)) & (argumentByte)) >> (7 % 8))*10;
+    result+= (((1 << (6 % 8)) & (argumentByte)) >> (6 % 8));
+
+    Serial.print("Parsed top 2 bit value is: ");
+    Serial.println(result);
+
     return  result;
 }
 

@@ -31,16 +31,18 @@ class I2C {
 
     const RESET_IMPULSE_COUNTER = 0x43;
 
-
-
     private static $channelId = "0";
 
-    private static  $slaveAddress = "0x0";
+    private static $slaveAddress = "0x0";
 
+    public static $debugMode = false;
 
+    public static $debugFile = "/tmp/i2cgw.log";
 
     public static function setI2cChannel($channelNum = 0)
     {
+        $channelNum = sprintf("0x%02x", $channelNum);
+        self::debug("Setting up i2c Channel to {$channelNum}");
         self::$channelId = $channelNum;
     }
 
@@ -52,6 +54,8 @@ class I2C {
 
     public static function setSlaveAddress($address = "0x00")
     {
+        $address = sprintf("0x%02x", $address);
+        self::debug("Setting up i2c Slave Address to {$address}");
         self::$slaveAddress = $address;
     }
 
@@ -60,17 +64,84 @@ class I2C {
         return self::$slaveAddress;
     }
 
-    public static function write($commandByte, $dataByte = null)
+    /**
+     * @param $commandByte
+     * @param null|int $argumentByte
+     * @return bool|string
+     * @throws Exception
+     */
+    public static function write($commandByte, $argumentByte = null)
     {
         $channelId = self::$channelId;
         $slaveAddress = self::$slaveAddress;
-        return system("i2cset {$channelId} {$slaveAddress} {$commandByte} {$dataByte}");
+        $commandByte = strtoupper(sprintf("0x%02x", $commandByte));
+        $argumentByte = strtoupper(sprintf("0x%02x", $argumentByte));
+
+        if (strlen($slaveAddress)!=4) {
+            throw new Exception("Invalid slave addres!");
+        }
+
+        if (strlen($channelId)!=4) {
+            throw new Exception("Invalid channel Id!");
+        }
+
+        if (strlen($commandByte)!=4) {
+            throw new Exception("Invalid command byte (first byte: {$commandByte})!");
+        }
+
+
+        if (!empty($argumentByte) && strlen($argumentByte)!=4 ) {
+            throw new Exception("Invalid argument byte (second byte: {$argumentByte})!");
+        }
+
+        $command = "i2cset -y -f  {$channelId} {$slaveAddress} {$commandByte} {$argumentByte}";
+        self::debug("Write command: ");
+        self::debug($command);
+        exec($command);
     }
 
-    public function read($commandByte)
+    /**
+     * @param $commandByte
+     * @return bool|string
+     * @throws Exception
+     */
+    public static function read($commandByte)
     {
         $channelId = self::$channelId;
         $slaveAddress = self::$slaveAddress;
-        return system("i2cget {$channelId} {$slaveAddress} {$commandByte}");
+        $commandByte = strtoupper(sprintf("0x%02x", $commandByte));
+
+        if (strlen($slaveAddress)!=4) {
+            throw new Exception("Invalid slave addres!");
+        }
+
+        if (strlen($channelId)!=4) {
+            throw new Exception("Invalid channel Id!");
+        }
+
+        if (strlen($commandByte)!=4) {
+            throw new Exception("Invalid command byte (first byte: {$commandByte})!");
+        }
+
+        $command = "i2cget -y -f {$channelId} {$slaveAddress} {$commandByte}";
+        self::debug("Read command:");
+        self::debug($command);
+        $response =  exec($command);
+        self::debug("Read response:");
+        self::debug($response);
+        return $response;
+    }
+
+    public static function debug($msg) {
+        if (self::$debugMode) {
+            echo $msg."\n";
+            $toLog = date("Y-m-d H:i:s");
+            file_put_contents(
+                self::$debugFile,
+                "[{$toLog}] : {$msg} \n",
+                FILE_APPEND
+            );
+        }
+
     }
 }

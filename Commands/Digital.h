@@ -20,7 +20,7 @@ int gwDigitalRead(int8_t argumentByte) {
 
 
 /**
- * argumentByte: 1-6 bit: pin number 7. bit allow 0, 8. bit: 1/0 HIGH/LOW
+ * argumentByte: 1-6 bit: pin number 7. bit: 1/0 HIGH/LOW 8. bot: not used
  *
  * Write a HIGH or a LOW value to a digital pin.
  */

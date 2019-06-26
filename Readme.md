@@ -81,8 +81,8 @@ ArgumentByte desc:
 * **digitalWrite** - 0x11 (Dec 17) - (2 byte, WRITE command)\
 ArgumentByte desc:
     - bit 1-6: pin number
-    - bit 7: not used 
-    - bit 8: 1/0 HIGH/LOW
+    - bit 7: 1/0 HIGH/LOW 
+    - bit 8: not used
 
 * **pinMode** - 0x12 (Dec 18) (2 byte, WRITE command)\
 ArgumentByte desc:

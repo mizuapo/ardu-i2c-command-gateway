@@ -33,7 +33,6 @@ int getFirstByteAndCleanIt() {
     if (getBufferedDataLength()>0) {
         char firstChar = bufferData.charAt(0);
         bufferData.remove(0,1);
-        Serial.println(firstChar);
         return (int)firstChar;
     }
 }
