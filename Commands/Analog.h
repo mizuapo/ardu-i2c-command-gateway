@@ -64,7 +64,6 @@ void gwAnalogWrite(int8_t argumentByte) {
         int value = getBufferedDataToInt();
         if (value>=0 && value<=255) {
             analogWrite(pin, value);
-            Serial.println(value);
         }
     }
 }
