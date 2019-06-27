@@ -14,7 +14,7 @@ set(${CMAKE_PROJECT_NAME}_SKETCH ardu_i2c_command_gateway.ino)
 
 
 set(${CMAKE_PROJECT_NAME}_BOARD uno)
-set(${CMAKE_PROJECT_NAME}_PORT /dev/ttyUSB0)
+set(${CMAKE_PROJECT_NAME}_PORT /dev/ttyUSB1)
 
 #### Uncomment below additional settings as needed.
 # set(${CMAKE_PROJECT_NAME}_BOARD mega)

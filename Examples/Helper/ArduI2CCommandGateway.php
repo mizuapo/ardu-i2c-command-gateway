@@ -69,6 +69,24 @@ class ArduI2CCommandGateway {
         return $response;
     }
 
+    /**
+     * Analog Write
+     *
+     * @param $pin
+     * @return string
+     * @throws Exception
+     */
+    public function analogWrite($pin, $value)
+    {
+        $this->flushBufferedData();
+        $this->delay(50);
+        $this->writeBufferedData($value);
+        $this->delay(50);
+        $data = $this->generateCommandByte($pin);
+        I2C::write(I2C::ANALOG_WRITE, $data);
+        $this->delay(50);
+    }
+
 
     public function delay($miliseconds) {
         usleep($miliseconds*1000);
@@ -115,6 +133,15 @@ class ArduI2CCommandGateway {
         return $data;
     }
 
+    /**
+     * @param $pin
+     * @param $dataToSend
+     * @throws Exception
+     */
+    public function writeBufferedData($dataToSend)
+    {
+        I2C::write(I2C::POOL_ADD_DATA_TO_BUFFER, $dataToSend);
+    }
 
 
 }

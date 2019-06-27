@@ -46,7 +46,7 @@ void receiveI2C(int byteCount) {
         int result = gwAnalogRead(argumentByte);
         addBufferedData(String(result, DEC));
     } else if (byteCount==2 && commandByte == 0x21) {   // Analog write (hex: 0x21, dec: 33)
-        gwDigitalWrite(argumentByte);
+        gwAnalogWrite(argumentByte);
     } else if (byteCount==2 && commandByte == 0x22) {   // Analog reference (hex: 0x22, dec: 34)
         gwAnalogReference(argumentByte);
 

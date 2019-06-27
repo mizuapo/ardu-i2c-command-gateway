@@ -59,10 +59,12 @@ void gwAnalogReference(int8_t argumentByte) {
  */
 void gwAnalogWrite(int8_t argumentByte) {
     int pin = getPinNumberFromArgument(argumentByte);
-    if (getBufferedDataLength()>0 && getBufferedDataLength()<3) {
+
+    if (getBufferedDataLength()>=0 && getBufferedDataLength()<=3) {
         int value = getBufferedDataToInt();
         if (value>=0 && value<=255) {
             analogWrite(pin, value);
+            Serial.println(value);
         }
     }
 }

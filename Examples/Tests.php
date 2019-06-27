@@ -35,10 +35,17 @@ try {
     //$a->digitalWrite($digitalPin, ArduI2CCommandGateway::HIGH);
 
 
-    //echo "Analog read...\n";
-    //$analogPin = 1;
-    //$value = $a->analogRead($analogPin);
-    //echo "Value is " . $value;
+//    echo "Analog read...\n";
+//    $analogPin = 1;
+//    $value = $a->analogRead($analogPin);
+//    echo "Value is " . $value;
+
+    echo "Analog write...\n";
+    $pwmPin = 6;
+    $value = 0;
+    $a->analogWrite($pwmPin, $value);
+
+
 
 
 } catch (\Exception $e) {
